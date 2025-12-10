@@ -1,0 +1,660 @@
+/* --- 1. CONFIGURAÇÕES GERAIS --- */
+body {
+    background-color: #fdfbf7; /* Fundo Creme/Papel Antigo */
+    color: #333;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* --- 2. BARRA DE NAVEGAÇÃO --- */
+.navbar-retro {
+    background-color: #fdfbf7; 
+    border-bottom: 1px solid #dcdcdc;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+    padding: 0.6rem 0; 
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.navbar-retro .container {
+    align-items: center; 
+    gap: 20px; 
+}
+
+.navbar-brand {
+    font-weight: 800; 
+    color: #dc3545 !important;
+    font-size: 2.2rem; 
+    letter-spacing: -1px;
+    margin: 0; 
+    line-height: 1;
+}
+
+.nav-link {
+    color: #555 !important;
+    font-weight: 600;
+    margin-left: 20px;
+    transition: color 0.3s;
+    font-size: 0.9rem;
+}
+
+.nav-link:hover, .nav-link.active {
+    color: #dc3545 !important;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
+.intro-player {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 4px 12px; 
+    border-radius: 50px;
+    margin-right: auto; 
+    transition: all 0.3s ease;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.intro-player:hover {
+    background-color: #dc3545; 
+    border-color: #dc3545;
+    color: white; 
+}
+
+.intro-player svg {
+    color: #dc3545;
+    margin-right: 6px;
+    width: 18px;
+    height: 18px;
+    transition: color 0.3s;
+}
+
+.intro-player:hover svg {
+    color: white;
+}
+
+.intro-player span {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #333; 
+    font-family: 'Segoe UI', sans-serif; 
+    white-space: nowrap;
+    transition: color 0.3s;
+}
+
+.intro-player:hover span {
+    color: white;
+}
+
+/* --- 3. MURAL (INDEX) --- */
+.map-container {
+    position: relative; 
+    max-width: 80%; /* Ajustável conforme gosto (ex: 1300px) */
+    width: 100%;
+    margin: 30px auto 50px auto; 
+    background-color: #fff; 
+    padding: 15px; 
+    border: 1px solid #dcdcdc;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08), 
+                0 5px 10px rgba(0,0,0,0.03);
+    border-radius: 2px;
+}
+
+.map-container > img { 
+    display: block;
+    width: 100%;
+    border: 1px solid #eee;
+}
+
+/* Hotspots (Botões de Rosto) */
+.hotspot {
+    position: absolute;
+    width: 48px; 
+    height: 48px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transform: translate(-50%, -50%);
+    transition: transform 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 5; 
+}
+
+.hotspot::after { content: none; }
+
+.hotspot-face {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%; 
+    object-fit: cover;
+    border: 3px solid #fff; 
+    box-shadow: 0 4px 8px rgba(0,0,0,0.4); 
+    transition: border-color 0.3s ease;
+}
+
+.hotspot:hover {
+    transform: translate(-50%, -50%) scale(1.2); 
+    z-index: 100; 
+}
+
+.hotspot:hover .hotspot-face {
+    border-color: #dc3545; 
+}
+
+/* Estilo "Já Assistido" (Borda Cinza) */
+.hotspot.watched .hotspot-face {
+    border-color: #6c757d;    
+}
+.hotspot.watched:hover .hotspot-face {
+    border-color: #dc3545;
+}
+
+/* Tooltip (Balãozinho) */
+.person-tooltip {
+    visibility: hidden;
+    opacity: 0;
+    width: 160px; 
+    background-color: #fff;
+    color: #212529;
+    text-align: center;
+    border-radius: 4px;
+    padding: 10px;
+    position: absolute;
+    z-index: 10; 
+    bottom: 150%; 
+    left: 50%;
+    transform: translateX(-50%);
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    border: 1px solid #ccc;
+}
+
+.hotspot:hover .person-tooltip {
+    visibility: visible;
+    opacity: 1;
+}
+
+.person-tooltip img {
+    width: 100% !important;
+    height: auto !important;
+    border-radius: 2px;
+    object-fit: cover;
+    margin-bottom: 8px;
+    border: 1px solid #eee;
+    display: block;
+}
+
+.person-tooltip p {
+    margin: 0;
+    font-weight: bold;
+    font-size: 14px;
+    font-family: 'Georgia', serif;
+}
+
+.person-tooltip::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -8px;
+    border-width: 8px;
+    border-style: solid;
+    border-color: #fff transparent transparent transparent;
+}
+
+/* Tooltip Inteligente (Inverte se estiver no topo) */
+.hotspot.tooltip-down .person-tooltip {
+    bottom: auto;       
+    top: 130%;          
+}
+.hotspot.tooltip-down .person-tooltip::after {
+    top: auto;          
+    bottom: 100%;       
+    border-color: transparent transparent #fff transparent; 
+}
+
+/* --- 4. GALERIA DE FOTOS (MASONRY) --- */
+.gallery-title {
+    font-family: 'Georgia', serif;
+    font-weight: bold;
+    color: #dc3545;
+    font-size: 1.5rem;
+    letter-spacing: -0.5px;
+}
+
+.gallery-subtitle {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1rem;
+    color: #6c757d;
+}
+
+.photo-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-gap: 20px; 
+    padding: 20px 0;
+}
+
+.gallery-item {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    padding: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    display: flex; 
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    break-inside: avoid-column; 
+    transition: transform 0.2s ease-in-out;
+    cursor: pointer; 
+}
+
+.gallery-item:hover {
+    transform: translateY(-5px) scale(1.01);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+
+.gallery-item img {
+    width: 100%; 
+    aspect-ratio: 16 / 9; 
+    object-fit: contain; 
+    background-color: #fff; 
+    display: block;
+    border-radius: 2px;
+    margin-bottom: 10px;
+    border: 1px solid #eee;
+}
+
+
+.photo-caption {
+    font-family: 'Georgia', serif;
+    font-size: 0.95rem;
+    color: #333;
+    text-align: center;
+    font-weight: 500;
+    line-height: 1.4;
+}
+
+/* Lightbox (Modal da Galeria) */
+#photoModal .modal-body {
+    position: relative;
+    padding: 0;
+    background-color: #000; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 300px; 
+}
+
+#photo-modal-img {
+    max-height: 85vh; 
+    max-width: 100%;
+    object-fit: contain; 
+    border-radius: 0; 
+}
+
+#photo-modal-caption {
+    color: #ccc; 
+    padding: 10px;
+    background-color: #000;
+    margin: 0;
+    width: 100%;
+}
+
+.lightbox-control {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%); 
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.5); 
+    font-size: 3rem; 
+    padding: 20px;
+    cursor: pointer;
+    z-index: 1056; 
+    transition: color 0.3s ease, background-color 0.3s ease;
+    height: 100%; 
+    display: flex;
+    align-items: center;
+    outline: none !important;
+}
+
+.lightbox-control:hover {
+    color: rgba(255, 255, 255, 1); 
+    background-color: rgba(0,0,0,0.3); 
+}
+.lightbox-prev { left: 0; }
+.lightbox-next { right: 0; }
+
+/* --- 5. PÁGINA DE DEPOIMENTOS (CARTÕES LARGOS) --- */
+.testimonials-grid {
+    display: flex;
+    flex-direction: column; 
+    gap: 40px; 
+    padding: 10px;
+    max-width: 900px; 
+    margin: 0 auto;   
+}
+
+.testimonial-card {
+    background-color: #fff;
+    padding: 40px; 
+    border-radius: 2px;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    position: relative;
+}
+
+/* Wrapper para separar Texto das Fotos e alinhar aspas */
+.testimonial-content-wrapper {
+    position: relative; 
+    margin-top: 10px;   
+    padding-left: 15px; 
+    padding-top: 30px;  
+}
+
+/* Aspas Gigantes (Agora presas ao texto) */
+.quote-icon {
+    font-family: 'Georgia', serif;
+    font-size: 80px;
+    line-height: 1;
+    color: #e0e0e0; 
+    position: absolute;
+    top: -5px; /* Posição ajustada */
+    left: 0px;
+    z-index: 0;
+    user-select: none;
+}
+
+/* Texto do Depoimento (Justificado) */
+.testimonial-text {
+    position: relative;
+    z-index: 1;
+    font-family: 'Georgia', 'Times New Roman', serif;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #333;
+    
+    /* Configuração de Justificação Forçada */
+    text-align: justify !important;  
+    text-justify: inter-word !important; 
+    white-space: normal !important;  
+    word-break: break-word;          
+    
+    display: block;                  
+    margin: 0;
+    margin-bottom: 20px;
+}
+
+/* Galeria de 3 Fotos (Lado a Lado) */
+.testimonial-gallery-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    width: 100%;
+    margin: 0 0 10px 0; 
+}
+
+.testimonial-gallery-row img {
+    flex: 1;           
+    width: 0;          
+    min-width: 0;      
+    height: 200px;     
+    object-fit: cover; 
+    border: 4px solid #fff;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+    transition: transform 0.3s;
+    border-radius: 2px;
+}
+
+.testimonial-gallery-row img:hover {
+    transform: scale(1.05);
+    z-index: 2;
+    box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+}
+
+/* Foto Única */
+.testimonial-single-img {
+    text-align: center;
+    margin: 0 0 10px 0; 
+}
+.testimonial-single-img img {
+    max-width: 100%;
+    max-height: 400px; 
+    object-fit: contain;
+    border: 5px solid #fff;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+    transform: rotate(-1deg); 
+}
+
+/* Assinatura do Depoimento */
+.testimonial-author {
+    border-top: 1px solid #eee;
+    padding-top: 20px;
+    text-align: right; 
+}
+.testimonial-author strong {
+    font-family: 'Courier New', monospace;
+    color: #dc3545;
+    font-size: 1.1rem;
+    display: block;
+}
+.testimonial-author span {
+    font-size: 0.9rem;
+    color: #777;
+    font-style: italic;
+}
+
+
+.project-content {
+    background-color: #fff;
+    padding: 40px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    max-width: 900px;
+    margin: 0 auto;
+    line-height: 1.8;
+    font-family: 'Georgia', serif; 
+    color: #444;
+    font-size: 0.9rem; 
+}
+
+.project-content h2 {
+    color: #dc3545;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 15px;
+    margin-bottom: 25px;
+}
+
+.project-content h3 {
+    font-size: 1.1rem; 
+    margin-bottom: 10px; 
+    border-bottom: 1px solid #eee; 
+    padding-bottom: 5px;
+    color: #dc3545;
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.project-content h4 {
+    font-size: 1rem;
+    margin-bottom: 10px;
+    font-family: 'Georgia', serif;
+    font-weight: bold;
+    color: #333;
+}
+
+.project-content p {
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+    text-align: justify; 
+}
+
+.project-section {
+    margin-bottom: 50px; 
+    padding-bottom: 30px;
+    border-bottom: 1px solid #eee; 
+}
+.project-section:last-child {
+    border-bottom: none;
+}
+
+/* Citações de Fonte */
+.source-citation {
+    display: block;
+    font-size: 0.9rem;
+    color: #777;
+    margin-top: 10px;
+    font-style: italic;
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-left: 3px solid #dc3545; 
+}
+.source-citation a {
+    color: #dc3545;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* Arte do Mural */
+.art-credits {
+    background-color: #fdfbf7; 
+    padding: 20px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+}
+
+/* Listas da Ficha Técnica */
+.names-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    columns: 2; 
+    -webkit-columns: 2;
+    -moz-columns: 2;
+}
+.names-list li {
+    font-size: 0.85rem; 
+    margin-bottom: 2px;
+    color: #555;
+    break-inside: avoid; 
+}
+
+/* Correção para Turmas (1 Coluna) */
+.names-list.student-list {
+    columns: 1 !important; 
+    -webkit-columns: 1 !important;
+    -moz-columns: 1 !important;
+}
+
+/* Tabela Ficha Técnica */
+.tech-sheet {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+.tech-sheet td {
+    padding: 8px 0;
+    vertical-align: top;
+    border-bottom: 1px solid #f0f0f0;
+}
+.role-title {
+    font-weight: bold;
+    color: #dc3545;
+    width: 40%; 
+    font-family: 'Courier New', monospace;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+}
+
+/* Realização (Logos) */
+.realization-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 50px; 
+    margin-top: 30px;
+    text-align: center;
+    flex-wrap: wrap;
+}
+
+.partner-block {
+    display: flex;
+    flex-direction: column; 
+    align-items: center;    
+    max-width: 250px;
+}
+
+.partner-logo {
+    max-width: 150px; 
+    height: auto;
+    margin-bottom: 15px;
+    filter: grayscale(10%); 
+    transition: filter 0.3s;
+}
+.partner-logo:hover { filter: grayscale(0%); }
+
+.partner-info {
+    width: 100%;
+    margin-top: 10px;
+    text-align: center !important; 
+}
+
+.partner-info p {
+    text-align: center !important; 
+    font-size: 0.9rem;
+    margin: 0;
+    line-height: 1.4;
+    color: #666;
+}
+
+.partner-info a {
+    display: block; 
+    text-align: center !important;
+    color: #dc3545;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 0.85rem;
+    margin-top: 5px;
+}
+
+/* --- 7. MODAIS DE VÍDEO (VERTICAL FIX) --- */
+.modal-video-player.vertical-mode {
+     width: auto !important;       
+     max-height: 70vh !important;  
+     display: block;               
+     margin: 0 auto;               
+     background-color: #000;       
+     border-radius: 4px;
+}
+
+/* --- 8. AJUSTES PARA CELULAR (MEDIA QUERIES) --- */
+@media (max-width: 768px) {
+    .navbar-brand { font-size: 1.5rem; }
+    
+    .hotspot { width: 32px; height: 32px; }
+    
+    .lightbox-control { padding: 5px; font-size: 1.5rem; }
+    
+    .map-container { padding: 5px; margin: 10px auto; }
+    
+    /* Esconde tooltips no mobile para não atrapalhar */
+    .person-tooltip { display: none !important; }
+    
+    .testimonial-card { padding: 20px; }
+    
+    /* Fotos da galeria empilhadas no celular */
+    .testimonial-gallery-row { flex-direction: column; }
+    .testimonial-gallery-row img { width: 100%; height: auto; max-height: 250px; }
+    
+    .names-list { columns: 1; }
+}
