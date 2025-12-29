@@ -658,3 +658,35 @@ body {
     
     .names-list { columns: 1; }
 }
+
+
+.aviso-flutuante {
+    /* Posicionamento */
+    position: absolute;
+    top: 25px;  /* 15px do padding + 10px de respiro */
+    left: 25px; /* 15px do padding + 10px de respiro */
+    z-index: 10; /* Garante que fique na frente da foto */
+
+    /* Estilo Visual (Sombra escura transparente) */
+    background-color: rgba(0, 0, 0, 0.5); 
+    color: #fff; /* Texto branco */
+    
+    /* Tipografia */
+    font-family: sans-serif;
+    font-size: 0.85rem; /* Tamanho pequeno e elegante */
+    padding: 8px 15px;
+    border-radius: 4px; /* Cantos arredondados */
+    
+    /* Magia de UX (Importante!) */
+    pointer-events: none; /* Permite clicar na foto que estiver EMBAIXO do aviso */
+    user-select: none;    /* Não deixa selecionar o texto */
+    backdrop-filter: blur(2px); /* Efeito de vidro (opcional) */
+}
+
+/* Opcional: Sumir com o aviso quando a tela for muito pequena (celular muito antigo) */
+@media (max-width: 400px) {
+    .aviso-flutuante {
+        font-size: 0.7rem;
+        padding: 5px 10px;
+    }
+}
