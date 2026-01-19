@@ -690,3 +690,25 @@ body {
         padding: 5px 10px;
     }
 }
+
+@media (max-width: 600px) {
+    .aviso-flutuante {
+        /* Desliga o modo flutuante */
+        position: relative; 
+        top: auto;
+        left: auto;
+        
+        /* Ajusta o visual para parecer uma legenda externa */
+        margin-top: -5px; /* Puxa um pouco pra perto da foto */
+        margin-bottom: 10px;
+        background-color: #333; /* Fundo sólido escuro */
+        color: #fff;
+        text-align: center;
+        width: 100%; /* Ocupa a largura toda */
+        border-radius: 0 0 5px 5px; /* Arredonda só embaixo */
+        
+        /* Garante que fique visível */
+        opacity: 1;
+        z-index: 1;
+    }
+}
