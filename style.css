@@ -691,24 +691,21 @@ body {
     }
 }
 
-@media (max-width: 600px) {
+/* --- AJUSTE PARA CELULAR (Telas menores que 768px) --- */
+@media (max-width: 768px) {
     .aviso-flutuante {
-        /* Desliga o modo flutuante */
-        position: relative; 
-        top: auto;
-        left: auto;
+        /* 1. Diminui drasticamente o tamanho da letra */
+        font-size: 10px; /* Pequeno, mas ainda legível */
         
-        /* Ajusta o visual para parecer uma legenda externa */
-        margin-top: -5px; /* Puxa um pouco pra perto da foto */
-        margin-bottom: 10px;
-        background-color: #333; /* Fundo sólido escuro */
-        color: #fff;
-        text-align: center;
-        width: 100%; /* Ocupa a largura toda */
-        border-radius: 0 0 5px 5px; /* Arredonda só embaixo */
+        /* 2. Reduz o "gordo" em volta do texto */
+        padding: 3px 8px; 
         
-        /* Garante que fique visível */
-        opacity: 1;
-        z-index: 1;
+        /* 3. Cola mais no canto para não invadir a foto */
+        top: 8px;  
+        left: 8px; 
+        
+        /* Ajuste fino */
+        line-height: 1.2; /* Altura da linha mais compacta */
+        border-radius: 3px;
     }
 }
